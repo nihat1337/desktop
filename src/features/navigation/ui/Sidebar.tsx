@@ -162,6 +162,7 @@ function Sidebar({ searchOpen, onSearchToggle }: SidebarProps) {
   const backgroundImage = useCustomizationStore((state) => state.backgroundImage);
   const sidebarConfig = useCustomizationStore((state) => state.sidebar);
   const hasCustomBg = Boolean(backgroundImage && isDark);
+  const isMac = window.linerElectron?.platform === "darwin";
   const sidebarStyle = getBlockStyle(sidebarConfig, isDark, hasCustomBg);
 
   return (
@@ -172,7 +173,12 @@ function Sidebar({ searchOpen, onSearchToggle }: SidebarProps) {
         } flex flex-col overflow-hidden`}
         style={sidebarStyle}
       >
-        <div className="flex justify-center items-center pt-[16px] pb-[16px] shrink-0">
+        {/* on macos the native traffic lights sit above the logo */}
+        <div
+          className={`flex justify-center items-center ${
+            isMac ? "pt-[44px]" : "pt-[16px]"
+          } pb-[16px] shrink-0`}
+        >
 
           <AppImage
             src={

@@ -95,6 +95,8 @@ const DEFAULT_WINDOW_WIDTH = 1200;
 const DEFAULT_WINDOW_HEIGHT = 780;
 const MIN_WINDOW_WIDTH = 1100;
 const MIN_WINDOW_HEIGHT = 705;
+// centered over the 58px sidebar, inside the 12px rounded corner
+const MAC_TRAFFIC_LIGHT_POSITION = { x: 16, y: 18 };
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -104,7 +106,10 @@ function createWindow() {
     height: DEFAULT_WINDOW_HEIGHT,
     minWidth: MIN_WINDOW_WIDTH,
     minHeight: MIN_WINDOW_HEIGHT,
-    frame: false,
+    // macos keeps its native traffic lights over the sidebar; other platforms draw their own controls
+    ...(process.platform === "darwin"
+      ? { titleBarStyle: "hidden" as const, trafficLightPosition: MAC_TRAFFIC_LIGHT_POSITION }
+      : { frame: false }),
     transparent: true,
     backgroundColor: "#00000000",
     hasShadow: false,

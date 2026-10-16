@@ -9,7 +9,13 @@ export interface WindowControlsProps {
   isFullscreen?: boolean;
 }
 
-export default function WindowControls({
+// macos draws native traffic lights (see electron/main.ts), so the custom controls are only for windows and linux
+export default function WindowControls(props: WindowControlsProps) {
+  if (window.linerElectron?.platform === "darwin") return null;
+  return <CustomWindowControls {...props} />;
+}
+
+function CustomWindowControls({
   className = "",
   variant = "default",
   style,
